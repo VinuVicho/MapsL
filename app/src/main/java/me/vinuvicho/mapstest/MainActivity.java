@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button btnGetDirection;
     Polyline currentPolyLine;
     EditText txtToGo;
+    EditText txtFrom;
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected Context context;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.main_activity);
         btnGetDirection = findViewById(R.id.btnGetDirection);
         txtToGo = findViewById(R.id.txtToGo);
+        txtFrom = findViewById(R.id.txtFrom);
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFrag);
         mapFragment.getMapAsync(this);
 
@@ -59,23 +62,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("No location access");
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-
+        findViewById(R.id.btnFindSelf).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+            }
+        });
         btnGetDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String direction = txtToGo.getText().toString().trim();
-                String url = getUrl(currentLocation, direction, "driving");
+                String directionFrom = txtFrom.getText().toString().trim();
+                if (direction.isEmpty()) {
+                    removePolyline();
+                    return;
+                }
+                String url;
+                if (directionFrom.isEmpty()) {
+                    url = getUrl(currentLocation.latitude + "," + currentLocation.longitude,
+                            UkrainianToLatin.generateLat(direction).replace(" ", "+"),
+                            "driving");
+                } else {
+                    url = getUrl(UkrainianToLatin.generateLat(directionFrom).replace(" ", "+"),
+                            UkrainianToLatin.generateLat(direction).replace(" ", "+"),
+                            "driving");
+                }
                 new FetchURL(MainActivity.this).execute(url, "driving");
             }
         });
 
     }
 
-    private String getUrl(LatLng origin, String dest, String directionMode) {
+    private String getUrl(String origin, String dest, String directionMode) {
         // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_origin = "origin=" + origin;
         // Destination of route
-        String str_dest = "destination=" + UkrainianToLatin.generateLat(dest).replace(" ", "+");
+        String str_dest = "destination=" + dest;
         // Mode
         String mode = "mode=" + directionMode;
         // Building the parameters to the web service
@@ -97,12 +119,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onTaskDone(Object... values) {
-        if (currentPolyLine != null) currentPolyLine.remove();
+        if (currentPolyLine != null) removePolyline();
         currentPolyLine = map.addPolyline((PolylineOptions) values[0]);
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    }
+
+    public void removePolyline() {
+        currentPolyLine.remove();
     }
 }
