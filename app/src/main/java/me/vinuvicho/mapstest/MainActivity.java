@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.time.LocalDateTime;
 
+import me.vinuvicho.mapstest.api.Direction;
 import me.vinuvicho.mapstest.api.Place;
 import me.vinuvicho.mapstest.helpers.FetchURL;
 import me.vinuvicho.mapstest.directionhelpers.TaskLoadedCallback;
@@ -87,35 +88,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 String url;
                 if (directionFrom.isEmpty()) {
-                    url = getUrl(currentLocation.latitude + "," + currentLocation.longitude,
+                    url = Direction.getUrl(currentLocation.latitude + "," + currentLocation.longitude,
                             UkrainianToLatin.generateLat(direction).replace(" ", "+"),
-                            "driving");
+                            "driving", getString(R.string.google_maps_key));
                 } else {
-                    url = getUrl(UkrainianToLatin.generateLat(directionFrom).replace(" ", "+"),
+                    url = Direction.getUrl(UkrainianToLatin.generateLat(directionFrom).replace(" ", "+"),
                             UkrainianToLatin.generateLat(direction).replace(" ", "+"),
-                            "driving");
+                            "driving", getString(R.string.google_maps_key));
                 }
                 new FetchURL(MainActivity.this).execute(url, "driving");
             }
         });
 
-    }
-
-    private String getUrl(String origin, String dest, String directionMode) {
-        // Origin of route
-        String str_origin = "origin=" + origin;
-        // Destination of route
-        String str_dest = "destination=" + dest;
-        // Mode
-        String mode = "mode=" + directionMode;
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode + "&language=ua";
-        // Output format
-        String output = "json";
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
-        System.out.println(url);
-        return url;
     }
 
     @Override
