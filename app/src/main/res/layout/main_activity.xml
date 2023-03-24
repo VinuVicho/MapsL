@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,29 +10,37 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        tools:ignore="FragmentTagUsage" />
+
     <EditText
         android:id="@+id/txtToGo"
         android:layout_height="wrap_content"
         android:text="Замарстинівська 15"
         android:hint="Where to go"
         android:layout_width="match_parent"
-        android:inputType="text"/>
+        android:inputType="text"
+        tools:ignore="Autofill,HardcodedText" />
     <EditText
         android:id="@+id/txtFrom"
         android:layout_height="wrap_content"
-        android:text="Миколайчука 7"
+        android:text="Форум Львів"
         android:hint="From where"
         android:layout_width="match_parent"
-        android:inputType="text"/>
+        android:inputType="text"
+        tools:ignore="Autofill,HardcodedText" />
 <Button
     android:id="@+id/btnGetDirection"
     android:text="Get Direction"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" />
+
 <Button
-    android:id="@+id/btnFindSelf"
-    android:text="Find my location"
+    android:id="@+id/toSettings"
+    android:text="Open Settings"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" />
+
 </LinearLayout>

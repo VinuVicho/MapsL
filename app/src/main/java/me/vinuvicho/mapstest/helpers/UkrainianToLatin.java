@@ -1,4 +1,4 @@
-package me.vinuvicho.mapstest;
+package me.vinuvicho.mapstest.helpers;
 
 import java.util.Arrays;
 import java.util.HashMap;
