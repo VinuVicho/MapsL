@@ -22,14 +22,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.time.LocalDateTime;
 
 import me.vinuvicho.mapstest.api.Place;
-import me.vinuvicho.mapstest.directionhelpers.FetchURL;
+import me.vinuvicho.mapstest.helpers.FetchURL;
 import me.vinuvicho.mapstest.directionhelpers.TaskLoadedCallback;
 import me.vinuvicho.mapstest.helpers.UkrainianToLatin;
 

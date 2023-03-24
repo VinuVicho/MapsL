@@ -1,4 +1,4 @@
-package me.vinuvicho.mapstest.directionhelpers;
+package me.vinuvicho.mapstest.helpers;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import me.vinuvicho.mapstest.directionhelpers.PointsParser;
 
 
 public class FetchURL extends AsyncTask<String, Void, String> {

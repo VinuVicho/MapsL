@@ -16,7 +16,7 @@ public class Place {
     private final String key;
 
     public Place() {
-        key = "AIzaSyB7HYPKPTTeAkXFC6RXiOgZftgUIKekBM";
+        key = "AIzaSyB7HYPKPTTeAkXFC6RXiOgZftgUIKIekBM";
         language = (R.id.language > 0) ? "ua" : "en";
     }
 
